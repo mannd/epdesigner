@@ -1,0 +1,556 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		8EAED9192E03569800D7DC46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EAED9022E03569600D7DC46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EAED9092E03569600D7DC46;
+			remoteInfo = "EP Designer";
+		};
+		8EAED9232E03569800D7DC46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8EAED9022E03569600D7DC46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8EAED9092E03569600D7DC46;
+			remoteInfo = "EP Designer";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8EAED90A2E03569600D7DC46 /* EP Designer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EP Designer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EAED9182E03569800D7DC46 /* EP DesignerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EP DesignerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EAED9222E03569800D7DC46 /* EP DesignerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "EP DesignerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8EAED90C2E03569600D7DC46 /* EP Designer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "EP Designer";
+			sourceTree = "<group>";
+		};
+		8EAED91B2E03569800D7DC46 /* EP DesignerTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "EP DesignerTests";
+			sourceTree = "<group>";
+		};
+		8EAED9252E03569800D7DC46 /* EP DesignerUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "EP DesignerUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EAED9072E03569600D7DC46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED9152E03569800D7DC46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED91F2E03569800D7DC46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8EAED9012E03569600D7DC46 = {
+			isa = PBXGroup;
+			children = (
+				8EAED90C2E03569600D7DC46 /* EP Designer */,
+				8EAED91B2E03569800D7DC46 /* EP DesignerTests */,
+				8EAED9252E03569800D7DC46 /* EP DesignerUITests */,
+				8EAED90B2E03569600D7DC46 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8EAED90B2E03569600D7DC46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EAED90A2E03569600D7DC46 /* EP Designer.app */,
+				8EAED9182E03569800D7DC46 /* EP DesignerTests.xctest */,
+				8EAED9222E03569800D7DC46 /* EP DesignerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EAED9092E03569600D7DC46 /* EP Designer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EAED92C2E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP Designer" */;
+			buildPhases = (
+				8EAED9062E03569600D7DC46 /* Sources */,
+				8EAED9072E03569600D7DC46 /* Frameworks */,
+				8EAED9082E03569600D7DC46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8EAED90C2E03569600D7DC46 /* EP Designer */,
+			);
+			name = "EP Designer";
+			packageProductDependencies = (
+			);
+			productName = "EP Designer";
+			productReference = 8EAED90A2E03569600D7DC46 /* EP Designer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8EAED9172E03569800D7DC46 /* EP DesignerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EAED92F2E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP DesignerTests" */;
+			buildPhases = (
+				8EAED9142E03569800D7DC46 /* Sources */,
+				8EAED9152E03569800D7DC46 /* Frameworks */,
+				8EAED9162E03569800D7DC46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EAED91A2E03569800D7DC46 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8EAED91B2E03569800D7DC46 /* EP DesignerTests */,
+			);
+			name = "EP DesignerTests";
+			packageProductDependencies = (
+			);
+			productName = "EP DesignerTests";
+			productReference = 8EAED9182E03569800D7DC46 /* EP DesignerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8EAED9212E03569800D7DC46 /* EP DesignerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EAED9322E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP DesignerUITests" */;
+			buildPhases = (
+				8EAED91E2E03569800D7DC46 /* Sources */,
+				8EAED91F2E03569800D7DC46 /* Frameworks */,
+				8EAED9202E03569800D7DC46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8EAED9242E03569800D7DC46 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8EAED9252E03569800D7DC46 /* EP DesignerUITests */,
+			);
+			name = "EP DesignerUITests";
+			packageProductDependencies = (
+			);
+			productName = "EP DesignerUITests";
+			productReference = 8EAED9222E03569800D7DC46 /* EP DesignerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EAED9022E03569600D7DC46 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					8EAED9092E03569600D7DC46 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					8EAED9172E03569800D7DC46 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8EAED9092E03569600D7DC46;
+					};
+					8EAED9212E03569800D7DC46 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 8EAED9092E03569600D7DC46;
+					};
+				};
+			};
+			buildConfigurationList = 8EAED9052E03569600D7DC46 /* Build configuration list for PBXProject "EP Designer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EAED9012E03569600D7DC46;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8EAED90B2E03569600D7DC46 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EAED9092E03569600D7DC46 /* EP Designer */,
+				8EAED9172E03569800D7DC46 /* EP DesignerTests */,
+				8EAED9212E03569800D7DC46 /* EP DesignerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EAED9082E03569600D7DC46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED9162E03569800D7DC46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED9202E03569800D7DC46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EAED9062E03569600D7DC46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED9142E03569800D7DC46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EAED91E2E03569800D7DC46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8EAED91A2E03569800D7DC46 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EAED9092E03569600D7DC46 /* EP Designer */;
+			targetProxy = 8EAED9192E03569800D7DC46 /* PBXContainerItemProxy */;
+		};
+		8EAED9242E03569800D7DC46 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8EAED9092E03569600D7DC46 /* EP Designer */;
+			targetProxy = 8EAED9232E03569800D7DC46 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8EAED92A2E03569800D7DC46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8EAED92B2E03569800D7DC46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		8EAED92D2E03569800D7DC46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "EP Designer/EP_Designer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-Designer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		8EAED92E2E03569800D7DC46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "EP Designer/EP_Designer.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-Designer";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		8EAED9302E03569800D7DC46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-DesignerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EP Designer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EP Designer";
+			};
+			name = Debug;
+		};
+		8EAED9312E03569800D7DC46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-DesignerTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EP Designer.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EP Designer";
+			};
+			name = Release;
+		};
+		8EAED9332E03569800D7DC46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-DesignerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "EP Designer";
+			};
+			name = Debug;
+		};
+		8EAED9342E03569800D7DC46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W74NPJXYEG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.epstudios.EP-DesignerUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "EP Designer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EAED9052E03569600D7DC46 /* Build configuration list for PBXProject "EP Designer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EAED92A2E03569800D7DC46 /* Debug */,
+				8EAED92B2E03569800D7DC46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EAED92C2E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP Designer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EAED92D2E03569800D7DC46 /* Debug */,
+				8EAED92E2E03569800D7DC46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EAED92F2E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP DesignerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EAED9302E03569800D7DC46 /* Debug */,
+				8EAED9312E03569800D7DC46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EAED9322E03569800D7DC46 /* Build configuration list for PBXNativeTarget "EP DesignerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EAED9332E03569800D7DC46 /* Debug */,
+				8EAED9342E03569800D7DC46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8EAED9022E03569600D7DC46 /* Project object */;
+}
