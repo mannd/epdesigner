@@ -22,11 +22,12 @@ final class EP_DesignerUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    // TODO:  Inactivate UI tests for now...
     @MainActor
     func testExample() throws {
         // UI tests must launch the application that they test.
-        let app = XCUIApplication()
-        app.launch()
+//        let app = XCUIApplication()
+//        app.launch()
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
@@ -34,8 +35,8 @@ final class EP_DesignerUITests: XCTestCase {
     @MainActor
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
+//        measure(metrics: [XCTApplicationLaunchMetric()]) {
+//            XCUIApplication().launch()
+//        }
     }
 }

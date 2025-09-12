@@ -33,6 +33,17 @@ struct EP_DesignerTests {
         let loadedTree = try DecisionNode.load(from: url)
 
         #expect(tree.id == loadedTree.id)
+        #expect(tree.question == loadedTree.question)
+        #expect(loadedTree.branches != nil)
+        #expect(tree.branches!.count == loadedTree.branches!.count)
+        #expect(loadedTree.branches?["Red"]?.result == "You like red!")
+        #expect(loadedTree.branches?["Blue"]?.result == "You like blue!")
+        #expect(loadedTree.branches?["Red"]?.isLeaf ?? false)
+        #expect(loadedTree.branches?["Blue"]?.isLeaf ?? false)
+
+        // Clean up
+        try? FileManager.default.removeItem(at: url)
+
     }
 
 }
