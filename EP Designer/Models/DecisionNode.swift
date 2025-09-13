@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DecisionNode: Codable, Identifiable {
+struct DecisionNode: Codable, Identifiable, Hashable {
     let id: String
     var question: String?
     var branches: [String: DecisionNode]?
@@ -33,6 +33,11 @@ struct DecisionNode: Codable, Identifiable {
         self.note = note
         self.tag = tag
     }
+
+    // Hash / equality based ONLY on id (stable & cheap)
+    static func == (lhs: DecisionNode, rhs: DecisionNode) -> Bool { lhs.id == rhs.id }
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
+
 }
 
 // MARK: - JSON Persistence

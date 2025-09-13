@@ -11,7 +11,7 @@ import SwiftUI
 struct EP_DesignerApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView()
+            ContentView()
         }
     }
 }
