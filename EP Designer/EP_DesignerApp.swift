@@ -11,7 +11,7 @@ import SwiftUI
 struct EP_DesignerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(root: DecisionNode.sampleTree)
         }
     }
 }
