@@ -94,10 +94,10 @@ struct ContentView: View {
             return
         }
         guard var branches = node.branches else { return }
-        for (key, child) in branches {
-            var mutableChild = child
+        for i in branches.indices {
+            var mutableChild = branches[i]
             replaceNode(in: &mutableChild, with: updated)
-            branches[key] = mutableChild
+            branches[i] = mutableChild
         }
         node.branches = branches
     }
@@ -105,7 +105,7 @@ struct ContentView: View {
     private func findNode(in node: DecisionNode, id: String) -> DecisionNode? {
         if node.id == id { return node }
         guard let branches = node.branches else { return nil }
-        for (_, child) in branches {
+        for child in branches {
             if let found = findNode(in: child, id: id) { return found }
         }
         return nil

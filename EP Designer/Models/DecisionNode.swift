@@ -9,8 +9,9 @@ import Foundation
 
 struct DecisionNode: Codable, Identifiable, Hashable {
     let id: String
+    var label: String // "Root" for root, or the answer text from parent
     var question: String?
-    var branches: [String: DecisionNode]?
+    var branches: [DecisionNode]?
     var result: String?
     var note: String?
     var tag: String?
@@ -21,12 +22,14 @@ struct DecisionNode: Codable, Identifiable, Hashable {
 
     // MARK: - Initializer
     init(id: String = UUID().uuidString,
+         label: String = "",
          question: String? = nil,
-         branches: [String: DecisionNode]? = nil,
+         branches: [DecisionNode]? = nil,
          result: String? = nil,
          note: String? = nil,
          tag: String? = nil) {
         self.id = id
+        self.label = label
         self.question = question
         self.branches = branches
         self.result = result

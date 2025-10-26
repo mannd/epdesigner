@@ -11,30 +11,34 @@ extension DecisionNode {
     static var sampleTree: DecisionNode {
         DecisionNode(
             id: "root",
+            label: "Root",
             question: "What is your favorite color?",
             branches: [
-                "Red": DecisionNode(
+                DecisionNode(
                     id: "red",
+                    label: "Red",
                     question: "Why do you like red?",
                     branches: [
-                        "Warm": DecisionNode(id: "red-warm", result: "You like passion and energy."),
-                        "Bold": DecisionNode(id: "red-bold", result: "You value confidence and strength.")
+                        DecisionNode(id: "red-warm", label: "Warm", result: "You like passion and energy."),
+                        DecisionNode(id: "red-bold", label: "Bold", result: "You value confidence and strength.")
                     ]
                 ),
-                "Blue": DecisionNode(
+                DecisionNode(
                     id: "blue",
+                    label: "Blue",
                     question: "Why do you like blue?",
                     branches: [
-                        "Calm": DecisionNode(id: "blue-calm", result: "You appreciate peace and stability."),
-                        "Cool": DecisionNode(id: "blue-cool", result: "You value rationality and clarity.")
+                        DecisionNode(id: "blue-calm", label: "Calm", result: "You appreciate peace and stability."),
+                        DecisionNode(id: "blue-cool", label: "Cool", result: "You value rationality and clarity.")
                     ]
                 ),
-                "Green": DecisionNode(
+                DecisionNode(
                     id: "green",
+                    label: "Green",
                     question: "Why do you like green?",
                     branches: [
-                        "Nature": DecisionNode(id: "green-nature", result: "You feel connected to the outdoors."),
-                        "Growth": DecisionNode(id: "green-growth", result: "You value progress and renewal.")
+                        DecisionNode(id: "green-nature", label: "Nature", result: "You feel connected to the outdoors."),
+                        DecisionNode(id: "green-growth", label: "Growth", result: "You value progress and renewal.")
                     ]
                 )
             ]

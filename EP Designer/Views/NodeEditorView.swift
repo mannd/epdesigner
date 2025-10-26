@@ -20,6 +20,9 @@ struct NodeEditorView: View {
                     HStack {
                         Spacer(minLength: 0)
                         VStack(alignment: .leading, spacing: 12) {
+                            // Label (branch answer) editor
+                            TextField("Label (answer from parent, e.g. Blue)", text: $node.label)
+
                             TextField("Question", text: Binding(
                                 get: { node.question ?? "" },
                                 set: {
@@ -51,15 +54,21 @@ struct NodeEditorView: View {
                         .frame(maxWidth: 640)
                         Spacer(minLength: 0)
                     }
+                    .padding(.horizontal, 16)
                 } header: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "square.grid.2x2")
-                        Text("Node")
-                            .font(.title3.weight(.semibold))
+                    HStack {
+                        Spacer(minLength: 0)
+                        HStack(spacing: 8) {
+                            Image(systemName: "square.grid.2x2")
+                            Text("Node")
+                                .font(.title3.weight(.semibold))
+                        }
+                        .frame(maxWidth: 640)
+                        .multilineTextAlignment(.center)
+                        .textCase(nil)
+                        Spacer(minLength: 0)
                     }
-                    .frame(maxWidth: .infinity)
-                    .multilineTextAlignment(.center)
-                    .textCase(nil)
+                    .padding(.horizontal, 16)
                     .padding(.top, 4)
                 } footer: {
                     Divider().padding(.vertical, 4)
@@ -69,13 +78,13 @@ struct NodeEditorView: View {
                     HStack {
                         Spacer(minLength: 0)
                         VStack(alignment: .leading, spacing: 12) {
-                            let sorted = (node.branches ?? [:]).sorted { $0.key < $1.key }
-                            if sorted.isEmpty {
+                            let children = node.branches ?? []
+                            if children.isEmpty {
                                 Text("No branches").foregroundStyle(.secondary)
                             } else {
-                                ForEach(sorted, id: \.key) { key, child in
+                                ForEach(children, id: \.id) { child in
                                     HStack {
-                                        Text(key).bold()
+                                        Text(child.label).bold()
                                         Text(child.question ?? child.result ?? "Untitled")
                                             .lineLimit(1)
                                             .foregroundStyle(.secondary)
@@ -91,7 +100,7 @@ struct NodeEditorView: View {
                                             .stroke(selectedChildID == child.id ? Color.accentColor : Color.clear, lineWidth: 1)
                                     )
                                     .contextMenu {
-                                        Button(role: .destructive) { removeBranch(key) } label: {
+                                        Button(role: .destructive) { removeBranch(child.label) } label: {
                                             Label("Delete Branch", systemImage: "trash")
                                         }
                                     }
@@ -115,15 +124,21 @@ struct NodeEditorView: View {
                         .frame(maxWidth: 640)
                         Spacer(minLength: 0)
                     }
+                    .padding(.horizontal, 16)
                 } header: {
-                    HStack(spacing: 8) {
-                        Image(systemName: "arrow.triangle.branch")
-                        Text("Branches")
-                            .font(.title3.weight(.semibold))
+                    HStack {
+                        Spacer(minLength: 0)
+                        HStack(spacing: 8) {
+                            Image(systemName: "arrow.triangle.branch")
+                            Text("Branches")
+                                .font(.title3.weight(.semibold))
+                        }
+                        .frame(maxWidth: 640)
+                        .multilineTextAlignment(.center)
+                        .textCase(nil)
+                        Spacer(minLength: 0)
                     }
-                    .frame(maxWidth: .infinity)
-                    .multilineTextAlignment(.center)
-                    .textCase(nil)
+                    .padding(.horizontal, 16)
                     .padding(.top, 8)
                 }
             }
@@ -133,23 +148,23 @@ struct NodeEditorView: View {
     }
 
     private func addBranch() {
-        let newKeyBase = "New Branch"
-        var key = newKeyBase
+        let base = "New Branch"
+        var label = base
         var i = 1
-        let existing = node.branches ?? [:]
-        while existing.keys.contains(key) {
+        var children = node.branches ?? []
+        while children.contains(where: { $0.label == label }) {
             i += 1
-            key = "\(newKeyBase) \(i)"
+            label = "\(base) \(i)"
         }
-        var branches = existing
-        branches[key] = DecisionNode(question: "New Child")
-        node.branches = branches
+        let newChild = DecisionNode(label: label, question: "New Child")
+        children.append(newChild)
+        node.branches = children
     }
 
-    private func removeBranch(_ key: String) {
-        guard var branches = node.branches else { return }
-        branches.removeValue(forKey: key)
-        node.branches = branches.isEmpty ? nil : branches
+    private func removeBranch(_ label: String) {
+        guard var children = node.branches else { return }
+        children.removeAll { $0.label == label }
+        node.branches = children.isEmpty ? nil : children
     }
 }
 
@@ -158,3 +173,4 @@ struct NodeEditorView: View {
         NodeEditorView(node: .constant(.sampleTree)) { _ in }
     }
 }
+

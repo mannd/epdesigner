@@ -52,18 +52,18 @@ struct NodeListView: View {
 
             // Render children only when expanded
             if isExpanded, let branches = node.branches {
-                ForEach(branches.sorted(by: { $0.key < $1.key }), id: \.key) { key, child in
+                ForEach(branches, id: \.id) { child in
                     VStack(alignment: .leading, spacing: 2) {
                         HStack(spacing: 6) {
                             // Indent for branch label
-                            Text("\(key):")
+                            Text("\(child.label):")
                                 .foregroundStyle(.secondary)
                                 .padding(.leading, 12)
 
                             Button {
                                 selection = child
                             } label: {
-                                NodeLabel(node: child, prefix: key)
+                                NodeLabel(node: child, prefix: child.label)
                                     .contentShape(Rectangle())
                                     .padding(6)
                                     .background(
@@ -125,3 +125,4 @@ struct StatefulPreviewWrapper<Value1, Value2, Content: View>: View {
 
     var body: some View { content($value1, $value2) }
 }
+
