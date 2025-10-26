@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var root: DecisionNode
     @State private var expanded: Set<String> = []
     @State private var selectedNodeID: String? = nil
+    @State private var refreshID = UUID()
 
     var body: some View {
         NavigationStack {
@@ -21,6 +22,7 @@ struct ContentView: View {
                         get: { selectedNodeID.flatMap { findNode(in: root, id: $0) } },
                         set: { selectedNodeID = $0?.id }
                     ))
+                        .id(refreshID)
                         .padding()
                         .navigationTitle("Decision Tree")
                 }
@@ -28,12 +30,8 @@ struct ContentView: View {
                 if let id = selectedNodeID, let node = findNode(in: root, id: id) {
                     let nodeBinding = Binding<DecisionNode>(
                             get: {
-                                // The getter returns the current value of 'node'
-                                // This is needed for the initial display and subsequent reads
-                                // within NodeEditorView.
-                                // A more robust implementation might re-find the node in root
-                                // if you expect root to change outside of this block.
-                                return node // or better: findNode(in: root, id: id)!
+                                // Always re-fetch from the current root so edits persist
+                                return findNode(in: root, id: id) ?? node
                             },
                             set: { updatedNode in
                                 // The setter is called when NodeEditorView tries to write a new value.
@@ -42,13 +40,21 @@ struct ContentView: View {
 
                                 // Keep the same selection id (stable)
                                 selectedNodeID = updatedNode.id
+
+                                // Trigger UI refresh for both panels
+                                refreshID = UUID()
                             }
                         )
-                    NodeEditorView(node: nodeBinding) { updated in
-                        replaceNode(in: &root, with: updated)
-                        // Keep the same selection id (stable)
-                        selectedNodeID = updated.id
-                    }
+                    NodeEditorView(
+                        node: nodeBinding,
+                        onChange: { updated in
+                            replaceNode(in: &root, with: updated)
+                            // Trigger UI refresh for both panels
+                            refreshID = UUID()
+                            // Keep the same selection id (stable)
+                            selectedNodeID = updated.id
+                        }
+                    )
                     .id(node.id)
                 } else {
                     Text("Select a node")
@@ -58,12 +64,8 @@ struct ContentView: View {
             .navigationDestination(for: DecisionNode.self) { node in
                 let nodeBinding = Binding<DecisionNode>(
                         get: {
-                            // The getter returns the current value of 'node'
-                            // This is needed for the initial display and subsequent reads
-                            // within NodeEditorView.
-                            // A more robust implementation might re-find the node in root
-                            // if you expect root to change outside of this block.
-                            return node // or better: findNode(in: root, id: id)!
+                            // Always re-fetch from the current root so edits persist
+                            return findNode(in: root, id: node.id) ?? node
                         },
                         set: { updatedNode in
                             // The setter is called when NodeEditorView tries to write a new value.
@@ -72,9 +74,14 @@ struct ContentView: View {
 
                             // Keep the same selection id (stable)
                             selectedNodeID = updatedNode.id
+
+                            // Trigger UI refresh for both panels
+                            refreshID = UUID()
                         }
                     )
-                NodeEditorView(node: nodeBinding)
+                NodeEditorView(
+                    node: nodeBinding
+                )
             }
         } // NavigationStack
         // This binds the sidebar selection to the @State property

@@ -36,8 +36,8 @@ struct DecisionNode: Codable, Identifiable, Hashable {
 
     // Hash / equality based ONLY on id (stable & cheap)
     static func == (lhs: DecisionNode, rhs: DecisionNode) -> Bool { lhs.id == rhs.id }
-    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 
+    func hash(into hasher: inout Hasher) { hasher.combine(id) }
 }
 
 // MARK: - JSON Persistence
@@ -57,4 +57,3 @@ extension DecisionNode {
         return try decoder.decode(DecisionNode.self, from: data)
     }
 }
-
