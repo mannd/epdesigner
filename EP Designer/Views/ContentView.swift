@@ -10,41 +10,75 @@ import SwiftUI
 struct ContentView: View {
     @State var root: DecisionNode
     @State private var expanded: Set<String> = []
-    @State private var selection: DecisionNode?
+    @State private var selectedNodeID: String? = nil
 
     var body: some View {
         NavigationStack {
             NavigationSplitView {
                 // Sidebar
                 ScrollView {
-                    NodeListView(node: root, expanded: $expanded, selection: $selection)
+                    NodeListView(node: root, expanded: $expanded, selection: Binding<DecisionNode?>(
+                        get: { selectedNodeID.flatMap { findNode(in: root, id: $0) } },
+                        set: { selectedNodeID = $0?.id }
+                    ))
                         .padding()
                         .navigationTitle("Decision Tree")
                 }
             } detail: {
-                if let node = selection {
-                    NodeEditorView(node: node) { updated in
+                if let id = selectedNodeID, let node = findNode(in: root, id: id) {
+                    let nodeBinding = Binding<DecisionNode>(
+                            get: {
+                                // The getter returns the current value of 'node'
+                                // This is needed for the initial display and subsequent reads
+                                // within NodeEditorView.
+                                // A more robust implementation might re-find the node in root
+                                // if you expect root to change outside of this block.
+                                return node // or better: findNode(in: root, id: id)!
+                            },
+                            set: { updatedNode in
+                                // The setter is called when NodeEditorView tries to write a new value.
+                                // This is where you perform your update logic.
+                                replaceNode(in: &root, with: updatedNode)
+
+                                // Keep the same selection id (stable)
+                                selectedNodeID = updatedNode.id
+                            }
+                        )
+                    NodeEditorView(node: nodeBinding) { updated in
                         replaceNode(in: &root, with: updated)
-                        // Update selection to reflect latest value from tree (id stable)
-                        selection = findNode(in: root, id: updated.id)
+                        // Keep the same selection id (stable)
+                        selectedNodeID = updated.id
                     }
+                    .id(node.id)
                 } else {
                     Text("Select a node")
                         .foregroundColor(.secondary)
                 }
             }
             .navigationDestination(for: DecisionNode.self) { node in
-                NodeEditorView(node: node)
+                let nodeBinding = Binding<DecisionNode>(
+                        get: {
+                            // The getter returns the current value of 'node'
+                            // This is needed for the initial display and subsequent reads
+                            // within NodeEditorView.
+                            // A more robust implementation might re-find the node in root
+                            // if you expect root to change outside of this block.
+                            return node // or better: findNode(in: root, id: id)!
+                        },
+                        set: { updatedNode in
+                            // The setter is called when NodeEditorView tries to write a new value.
+                            // This is where you perform your update logic.
+                            replaceNode(in: &root, with: updatedNode)
+
+                            // Keep the same selection id (stable)
+                            selectedNodeID = updatedNode.id
+                        }
+                    )
+                NodeEditorView(node: nodeBinding)
             }
         } // NavigationStack
         // This binds the sidebar selection to the @State property
         .navigationSplitViewColumnWidth(min: 200, ideal: 250)
-//        .onChange(of: selection) { newValue in
-//            // Debug loggin
-//            if let node = newValue {
-//                print("Selected node: \(node.id)")
-//            }
-//        }
     }
 
     private func replaceNode(in node: inout DecisionNode, with updated: DecisionNode) {
