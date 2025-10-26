@@ -35,6 +35,15 @@ struct NodeListView: View {
                 } label: {
                     NodeLabel(node: node)
                         .contentShape(Rectangle())
+                        .padding(6)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.accentColor.opacity(selection?.id == node.id ? 0.12 : 0))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(selection?.id == node.id ? Color.accentColor : Color.clear, lineWidth: 1)
+                        )
                 }
                 .buttonStyle(.plain)
 
@@ -56,6 +65,15 @@ struct NodeListView: View {
                             } label: {
                                 NodeLabel(node: child, prefix: key)
                                     .contentShape(Rectangle())
+                                    .padding(6)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .fill(Color.accentColor.opacity(selection?.id == child.id ? 0.12 : 0))
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(selection?.id == child.id ? Color.accentColor : Color.clear, lineWidth: 1)
+                                    )
                             }
                             .buttonStyle(.plain)
                         }
