@@ -8,22 +8,66 @@
 import SwiftUI
 
 struct ContentView: View {
-    let root: DecisionNode
+    @State var root: DecisionNode
+    @State private var expanded: Set<String> = []
+    @State private var selection: DecisionNode?
 
     var body: some View {
         NavigationStack {
             NavigationSplitView {
-                NodeListView(node: root)
-                .navigationTitle("Decision Tree")
+                // Sidebar
+                ScrollView {
+                    NodeListView(node: root, expanded: $expanded, selection: $selection)
+                        .padding()
+                        .navigationTitle("Decision Tree")
+                }
             } detail: {
-                Text("Select a node")
-                    .foregroundColor(.secondary)
+                if let node = selection {
+                    NodeEditorView(node: node) { updated in
+                        replaceNode(in: &root, with: updated)
+                        // Update selection to reflect latest value from tree (id stable)
+                        selection = findNode(in: root, id: updated.id)
+                    }
+                } else {
+                    Text("Select a node")
+                        .foregroundColor(.secondary)
+                }
             }
-            // Attach the destination to the NavigationStack (works reliably)
             .navigationDestination(for: DecisionNode.self) { node in
-                NodeDetailView(node: node)
+                NodeEditorView(node: node)
             }
         } // NavigationStack
+        // This binds the sidebar selection to the @State property
+        .navigationSplitViewColumnWidth(min: 200, ideal: 250)
+//        .onChange(of: selection) { newValue in
+//            // Debug loggin
+//            if let node = newValue {
+//                print("Selected node: \(node.id)")
+//            }
+//        }
+    }
+
+    private func replaceNode(in node: inout DecisionNode, with updated: DecisionNode) {
+        if node.id == updated.id {
+            node = updated
+            return
+        }
+        guard var branches = node.branches else { return }
+        for (key, child) in branches {
+            var mutableChild = child
+            replaceNode(in: &mutableChild, with: updated)
+            branches[key] = mutableChild
+        }
+        node.branches = branches
+    }
+
+    private func findNode(in node: DecisionNode, id: String) -> DecisionNode? {
+        if node.id == id { return node }
+        guard let branches = node.branches else { return nil }
+        for (_, child) in branches {
+            if let found = findNode(in: child, id: id) { return found }
+        }
+        return nil
     }
 }
 
@@ -31,3 +75,4 @@ struct ContentView: View {
 #Preview {
     ContentView(root: .sampleTree)
 }
+
