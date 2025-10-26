@@ -15,32 +15,69 @@ struct NodeEditorView: View {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture { selectedChildID = nil }
-            Form {
-                Section {
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Node Header
+                    HStack { Spacer(minLength: 0)
+                        HStack(spacing: 8) {
+                            Image(systemName: "square.grid.2x2")
+                            Text("Node").font(.title3.weight(.semibold))
+                        }
+                        .frame(maxWidth: 640)
+                        Spacer(minLength: 0)
+                    }
+                    .padding(.top, 8)
+
+                    // Node Card
                     HStack {
                         Spacer(minLength: 0)
                         VStack(alignment: .leading, spacing: 12) {
-                            // Label (branch answer) editor
-                            TextField("Label (answer from parent, e.g. Blue)", text: $node.label)
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("Label")
+                                    .frame(width: 120, alignment: .trailing)
+                                    .foregroundStyle(.secondary)
+                                TextField("Answer from parent, e.g. Blue", text: $node.label)
+                            }
 
-                            TextField("Question", text: Binding(
-                                get: { node.question ?? "" },
-                                set: {
-                                    print("Question set to:", $0)
-                                    node.question = $0.isEmpty ? nil : $0 }
-                            ))
-                            TextField("Result (leaf)", text: Binding(
-                                get: { node.result ?? "" },
-                                set: { node.result = $0.isEmpty ? nil : $0 }
-                            ))
-                            TextField("Note", text: Binding(
-                                get: { node.note ?? "" },
-                                set: { node.note = $0.isEmpty ? nil : $0 }
-                            ))
-                            TextField("Tag", text: Binding(
-                                get: { node.tag ?? "" },
-                                set: { node.tag = $0.isEmpty ? nil : $0 }
-                            ))
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("Question")
+                                    .frame(width: 120, alignment: .trailing)
+                                    .foregroundStyle(.secondary)
+                                TextField("What is your question?", text: Binding(
+                                    get: { node.question ?? "" },
+                                    set: { node.question = $0.isEmpty ? nil : $0 }
+                                ))
+                            }
+
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("Result (leaf)")
+                                    .frame(width: 120, alignment: .trailing)
+                                    .foregroundStyle(.secondary)
+                                TextField("", text: Binding(
+                                    get: { node.result ?? "" },
+                                    set: { node.result = $0.isEmpty ? nil : $0 }
+                                ))
+                            }
+
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("Note")
+                                    .frame(width: 120, alignment: .trailing)
+                                    .foregroundStyle(.secondary)
+                                TextField("", text: Binding(
+                                    get: { node.note ?? "" },
+                                    set: { node.note = $0.isEmpty ? nil : $0 }
+                                ))
+                            }
+
+                            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                Text("Tag")
+                                    .frame(width: 120, alignment: .trailing)
+                                    .foregroundStyle(.secondary)
+                                TextField("", text: Binding(
+                                    get: { node.tag ?? "" },
+                                    set: { node.tag = $0.isEmpty ? nil : $0 }
+                                ))
+                            }
                         }
                         .padding(12)
                         .background(
@@ -55,26 +92,23 @@ struct NodeEditorView: View {
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 16)
-                } header: {
-                    HStack {
-                        Spacer(minLength: 0)
+
+                    // Divider between sections
+                    HStack { Spacer(minLength: 0)
+                        Divider().frame(maxWidth: 640)
+                        Spacer(minLength: 0) }
+
+                    // Branches Header
+                    HStack { Spacer(minLength: 0)
                         HStack(spacing: 8) {
-                            Image(systemName: "square.grid.2x2")
-                            Text("Node")
-                                .font(.title3.weight(.semibold))
+                            Image(systemName: "arrow.triangle.branch")
+                            Text("Branches").font(.title3.weight(.semibold))
                         }
                         .frame(maxWidth: 640)
-                        .multilineTextAlignment(.center)
-                        .textCase(nil)
                         Spacer(minLength: 0)
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 4)
-                } footer: {
-                    Divider().padding(.vertical, 4)
-                }
 
-                Section {
+                    // Branches Card
                     HStack {
                         Spacer(minLength: 0)
                         VStack(alignment: .leading, spacing: 12) {
@@ -106,11 +140,7 @@ struct NodeEditorView: View {
                                     }
                                 }
                             }
-                            Button {
-                                addBranch()
-                            } label: {
-                                Label("Add Branch", systemImage: "plus")
-                            }
+                            Button { addBranch() } label: { Label("Add Branch", systemImage: "plus") }
                         }
                         .padding(12)
                         .background(
@@ -125,22 +155,10 @@ struct NodeEditorView: View {
                         Spacer(minLength: 0)
                     }
                     .padding(.horizontal, 16)
-                } header: {
-                    HStack {
-                        Spacer(minLength: 0)
-                        HStack(spacing: 8) {
-                            Image(systemName: "arrow.triangle.branch")
-                            Text("Branches")
-                                .font(.title3.weight(.semibold))
-                        }
-                        .frame(maxWidth: 640)
-                        .multilineTextAlignment(.center)
-                        .textCase(nil)
-                        Spacer(minLength: 0)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.top, 8)
+
+                    Spacer(minLength: 0)
                 }
+                .padding(.vertical, 12)
             }
             .padding(.horizontal, 16)
         }
