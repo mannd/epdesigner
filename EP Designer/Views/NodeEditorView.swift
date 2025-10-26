@@ -19,7 +19,9 @@ struct NodeEditorView: View {
                 Section("Node") {
                     TextField("Question", text: Binding(
                         get: { node.question ?? "" },
-                        set: { node.question = $0.isEmpty ? nil : $0 }
+                        set: {
+                            print("Question set to:", $0)
+                            node.question = $0.isEmpty ? nil : $0 }
                     ))
                     TextField("Result (leaf)", text: Binding(
                         get: { node.result ?? "" },
@@ -43,7 +45,7 @@ struct NodeEditorView: View {
                         ForEach(sorted, id: \.key) { key, child in
                             HStack {
                                 Text(key).bold()
-                                Spacer()
+                                //Spacer()
                                 Text(child.question ?? child.result ?? "Untitled")
                                     .lineLimit(1)
                                     .foregroundStyle(.secondary)
@@ -74,9 +76,6 @@ struct NodeEditorView: View {
             }
         }
         .navigationTitle(node.question ?? "Node Details")
-        .onChange(of: node) { oldValue, newValue in
-            onChange(newValue)
-        }
     }
 
     private func addBranch() {
