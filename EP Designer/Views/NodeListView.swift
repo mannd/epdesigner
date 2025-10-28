@@ -72,14 +72,22 @@ struct NodeListView: View {
                                         .fontWeight(.semibold)
                                 }
                                 .contentShape(Rectangle())
-                                .padding(.leading, 0)
+                                .padding(6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.accentColor.opacity(selection?.id == child.id ? 0.12 : 0))
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(selection?.id == child.id ? Color.accentColor : Color.clear, lineWidth: 1)
+                                )
                             }
                             .buttonStyle(.plain)
                             Spacer(minLength: 0)
                         }
                         .padding(.leading, 12)
 
-                        // Next line: either nested question (chevron + Q:) or result line starting with "-"
+                        // Next line: either result line or recurse for the child
                         if isLeaf(child), let result = resultText(child) {
                             HStack(spacing: 6) {
                                 Text("")
@@ -92,7 +100,6 @@ struct NodeListView: View {
                             }
                             .padding(.leading, 24)
                         } else {
-                            // Recurse for the child so it renders its own Q header and A lines
                             NodeListView(node: child, expanded: $expanded, selection: $selection)
                                 .padding(.leading, 12)
                         }
@@ -150,3 +157,4 @@ struct StatefulPreviewWrapper<Value1, Value2, Content: View>: View {
 
     var body: some View { content($value1, $value2) }
 }
+
