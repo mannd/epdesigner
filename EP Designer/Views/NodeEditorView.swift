@@ -65,10 +65,22 @@ struct NodeEditorView: View {
                                 Text("Result (leaf)")
                                     .frame(width: 120, alignment: .trailing)
                                     .foregroundStyle(.secondary)
-                                TextField("", text: Binding(
-                                    get: { node.result ?? "" },
-                                    set: { node.result = $0.isEmpty ? nil : $0 }
-                                ))
+                                TextField(
+                                    (node.branches?.isEmpty == false) ? "Result disabled when branches exist" : "",
+                                    text: Binding(
+                                        get: { (node.branches?.isEmpty == false) ? (node.result ?? "") : (node.result ?? "") },
+                                        set: { newValue in
+                                            if node.branches?.isEmpty == false {
+                                                // Ignore edits when branches exist
+                                                return
+                                            } else {
+                                                node.result = newValue.isEmpty ? nil : newValue
+                                            }
+                                        }
+                                    )
+                                )
+                                .disabled(node.branches?.isEmpty == false)
+                                .accessibilityHint((node.branches?.isEmpty == false) ? "Disabled when branches exist" : "Enter a result to make this a leaf")
                             }
 
                             HStack(alignment: .firstTextBaseline, spacing: 8) {
