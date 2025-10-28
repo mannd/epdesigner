@@ -11,6 +11,12 @@ struct NodeListView: View {
     let node: DecisionNode
     @Binding var expanded: Set<String>
     @Binding var selection: DecisionNode?
+    var isColoredText: Bool = true
+
+    let questionColor: Color = .blue
+    let answerColor: Color = .red
+    let resultColor: Color = .green
+
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -48,6 +54,7 @@ struct NodeListView: View {
                             .stroke(selection?.id == node.id ? Color.accentColor : Color.clear, lineWidth: 1)
                     )
                 }
+                .foregroundStyle(isColoredText ? questionColor : .primary)
                 .buttonStyle(.plain)
                 Spacer(minLength: 0)
             }
@@ -82,6 +89,7 @@ struct NodeListView: View {
                                         .stroke(selection?.id == child.id ? Color.accentColor : Color.clear, lineWidth: 1)
                                 )
                             }
+                            .foregroundStyle(isColoredText ? answerColor : .secondary)
                             .buttonStyle(.plain)
                             Spacer(minLength: 0)
                         }
@@ -98,6 +106,7 @@ struct NodeListView: View {
                                     Text(result)
                                 }
                             }
+                            .foregroundStyle(isColoredText ? resultColor : .secondary)
                             .padding(.leading, 24)
                         } else {
                             NodeListView(node: child, expanded: $expanded, selection: $selection)
