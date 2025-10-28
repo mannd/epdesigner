@@ -92,7 +92,7 @@ struct NodeListView: View {
                             }
                             .padding(.leading, 24)
                         } else {
-                            // Show the child's question line with its own chevron and Q:
+                            // Recurse for the child so it renders its own Q header and A lines
                             NodeListView(node: child, expanded: $expanded, selection: $selection)
                                 .padding(.leading, 12)
                         }
@@ -119,8 +119,8 @@ struct NodeListView: View {
     }
 
     private func isLeaf(_ n: DecisionNode) -> Bool {
-        if let branches = n.branches, !branches.isEmpty { return false }
-        return (n.result?.isEmpty == false)
+        guard let branches = n.branches else { return true }
+        return branches.isEmpty
     }
 
     private func resultText(_ n: DecisionNode) -> String? {
