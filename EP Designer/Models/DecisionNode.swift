@@ -9,7 +9,7 @@ import Foundation
 
 struct DecisionNode: Codable, Identifiable, Hashable {
     let id: String
-    var label: String // "Root" for root, or the answer text from parent
+    var label: String // "" for root or leaf, or the answer text from parent
     var question: String?
     var branches: [DecisionNode]?
     var result: String?

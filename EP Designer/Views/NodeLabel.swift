@@ -16,8 +16,15 @@ struct NodeLabel: View {
             if let prefix = prefix {
                 Text(prefix).bold()
             }
-            Text(node.question ?? "Untitled Node")
+            Text(getLabel())
         }
+    }
+
+    private func getLabel() -> String {
+        if node.isLeaf {
+            return node.result ?? "Unknown Result"
+        }
+        return node.question ?? "Untitled Node"
     }
 }
 

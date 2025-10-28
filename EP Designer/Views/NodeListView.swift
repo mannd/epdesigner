@@ -14,12 +14,10 @@ struct NodeListView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
+            // Question line: chevron + Q: + question text
             HStack(spacing: 6) {
-                // Disclosure toggle
                 Button {
-                    if hasChildren {
-                        toggle(node.id)
-                    }
+                    if hasChildren { toggle(node.id) }
                 } label: {
                     Image(systemName: disclosureIconName)
                         .font(.caption)
@@ -29,58 +27,75 @@ struct NodeListView: View {
                 }
                 .buttonStyle(.plain)
 
-                // Selectable label
                 Button {
                     selection = node
                 } label: {
-                    NodeLabel(node: node)
-                        .contentShape(Rectangle())
-                        .padding(6)
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.accentColor.opacity(selection?.id == node.id ? 0.12 : 0))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(selection?.id == node.id ? Color.accentColor : Color.clear, lineWidth: 1)
-                        )
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text("Q:")
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.secondary)
+                        NodeLabel(node: node)
+                            .lineLimit(nil)
+                    }
+                    .contentShape(Rectangle())
+                    .padding(6)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.accentColor.opacity(selection?.id == node.id ? 0.12 : 0))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(selection?.id == node.id ? Color.accentColor : Color.clear, lineWidth: 1)
+                    )
                 }
                 .buttonStyle(.plain)
-
                 Spacer(minLength: 0)
             }
 
-            // Render children only when expanded
+            // Children when expanded
             if isExpanded, let branches = node.branches {
                 ForEach(branches, id: \.id) { child in
-                    VStack(alignment: .leading, spacing: 2) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        // Answer line: A: <label>
                         HStack(spacing: 6) {
-                            // Indent for branch label
-                            Text("\(child.label):")
-                                .foregroundStyle(.secondary)
-                                .padding(.leading, 12)
-
+                            // indent for answers relative to the question chevron
+                            Text("")
+                                .frame(width: 14) // reserve space where a chevron would be
                             Button {
                                 selection = child
                             } label: {
-                                NodeLabel(node: child, prefix: child.label)
-                                    .contentShape(Rectangle())
-                                    .padding(6)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.accentColor.opacity(selection?.id == child.id ? 0.12 : 0))
-                                    )
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .stroke(selection?.id == child.id ? Color.accentColor : Color.clear, lineWidth: 1)
-                                    )
+                                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                    Text("A:")
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.secondary)
+                                    Text(child.label)
+                                        .fontWeight(.semibold)
+                                }
+                                .contentShape(Rectangle())
+                                .padding(.leading, 0)
                             }
                             .buttonStyle(.plain)
+                            Spacer(minLength: 0)
                         }
+                        .padding(.leading, 12)
 
-                        // Recurse for grandchildren (indent)
-                        NodeListView(node: child, expanded: $expanded, selection: $selection)
-                            .padding(.leading, 12)
+                        // Next line: either nested question (chevron + Q:) or result line starting with "-"
+                        if isLeaf(child), let result = resultText(child) {
+                            HStack(spacing: 6) {
+                                Text("")
+                                    .frame(width: 14)
+                                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                    Text("-")
+                                        .foregroundStyle(.secondary)
+                                    Text(result)
+                                }
+                            }
+                            .padding(.leading, 24)
+                        } else {
+                            // Show the child's question line with its own chevron and Q:
+                            NodeListView(node: child, expanded: $expanded, selection: $selection)
+                                .padding(.leading, 12)
+                        }
                     }
                 }
             }
@@ -101,6 +116,16 @@ struct NodeListView: View {
     private var disclosureIconName: String {
         guard hasChildren else { return "circle.fill" } // rendered clear when no children
         return isExpanded ? "chevron.down" : "chevron.right"
+    }
+
+    private func isLeaf(_ n: DecisionNode) -> Bool {
+        if let branches = n.branches, !branches.isEmpty { return false }
+        return (n.result?.isEmpty == false)
+    }
+
+    private func resultText(_ n: DecisionNode) -> String? {
+        guard let text = n.result, !text.isEmpty else { return nil }
+        return text
     }
 }
 
@@ -125,4 +150,3 @@ struct StatefulPreviewWrapper<Value1, Value2, Content: View>: View {
 
     var body: some View { content($value1, $value2) }
 }
-
