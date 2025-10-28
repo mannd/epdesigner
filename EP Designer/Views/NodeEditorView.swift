@@ -43,10 +43,22 @@ struct NodeEditorView: View {
                                 Text("Question")
                                     .frame(width: 120, alignment: .trailing)
                                     .foregroundStyle(.secondary)
-                                TextField("What is your question?", text: Binding(
-                                    get: { node.question ?? "" },
-                                    set: { node.question = $0.isEmpty ? nil : $0 }
-                                ))
+                                TextField(
+                                    node.isLeaf ? "Question disabled for leaf nodes" : "What is your question?",
+                                    text: Binding(
+                                        get: { node.isLeaf ? "" : (node.question ?? "") },
+                                        set: { newValue in
+                                            if node.isLeaf {
+                                                // Keep blank when leaf
+                                                node.question = nil
+                                            } else {
+                                                node.question = newValue.isEmpty ? nil : newValue
+                                            }
+                                        }
+                                    )
+                                )
+                                .disabled(node.isLeaf)
+                                .accessibilityHint(node.isLeaf ? "Disabled for leaf nodes" : "Edit the question")
                             }
 
                             HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -141,6 +153,8 @@ struct NodeEditorView: View {
                                 }
                             }
                             Button { addBranch() } label: { Label("Add Branch", systemImage: "plus") }
+                            .disabled(node.isLeaf)
+                            .accessibilityHint(node.isLeaf ? "Disabled for leaf nodes" : "Add a new branch")
                         }
                         .padding(12)
                         .background(
@@ -191,4 +205,3 @@ struct NodeEditorView: View {
         NodeEditorView(node: .constant(.sampleTree)) { _ in }
     }
 }
-
