@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @State var root: DecisionNode
     @State private var expanded: Set<String> = []
     @State private var selectedNodeID: String? = nil
     @State private var refreshID = UUID()
+    @State private var showingImporter = false
+    @State private var showingExporter = false
 
     var body: some View {
         NavigationStack {
@@ -84,6 +87,38 @@ struct ContentView: View {
                 )
             }
         } // NavigationStack
+        .toolbar {
+            ToolbarItemGroup(placement: .automatic) {
+                Button {
+                    showingImporter = true
+                } label: {
+                    Label("Open", systemImage: "folder")
+                }
+                Button {
+                    showingExporter = true
+                } label: {
+                    Label("Save", systemImage: "square.and.arrow.down")
+                }
+            }
+        }
+        .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
+            do {
+                let url = try result.get()
+                let loaded = try DecisionNode.load(from: url)
+                root = loaded
+                // Reset selection/expanded state for new tree
+                expanded.removeAll()
+                selectedNodeID = nil
+                refreshID = UUID()
+            } catch {
+                print("Failed to open: \(error)")
+            }
+        }
+        .fileExporter(isPresented: $showingExporter, document: DecisionNodeDocument(node: root), contentType: .json, defaultFilename: defaultFilename()) { result in
+            if case let .failure(error) = result {
+                print("Failed to save: \(error)")
+            }
+        }
         // This binds the sidebar selection to the @State property
         .navigationSplitViewColumnWidth(min: 200, ideal: 250)
     }
@@ -110,10 +145,39 @@ struct ContentView: View {
         }
         return nil
     }
+
+    private func defaultFilename() -> String {
+        let base = root.label.isEmpty ? "DecisionTree" : root.label
+        return base.replacingOccurrences(of: " ", with: "_")
+    }
+}
+
+import UniformTypeIdentifiers
+struct DecisionNodeDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.json] }
+    var node: DecisionNode
+    init(node: DecisionNode) { self.node = node }
+    init(configuration: ReadConfiguration) throws {
+        // Read data from the provided FileWrapper (non-optional)
+        guard let data = configuration.file.regularFileContents else {
+            throw CocoaError(.fileReadUnknown)
+        }
+        // Write to a temporary URL so we can reuse the existing `DecisionNode.load(from:)`
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(UUID().uuidString)
+            .appendingPathExtension("json")
+        try data.write(to: tempURL)
+        self.node = try DecisionNode.load(from: tempURL)
+    }
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        let temp = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString).appendingPathExtension("json")
+        try node.save(to: temp)
+        let data = try Data(contentsOf: temp)
+        return FileWrapper(regularFileWithContents: data)
+    }
 }
 
 // Preview
 #Preview {
     ContentView(root: .sampleTree)
 }
-

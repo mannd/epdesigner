@@ -1,0 +1,51 @@
+{
+  "fill" : {
+    "automatic-gradient" : "srgb:0.00000,0.00000,0.00000,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "fill" : "none",
+          "glass" : true,
+          "image-name" : "bitmap 8.svg",
+          "name" : "bitmap 8",
+          "position" : {
+            "scale" : 10,
+            "translation-in-points" : [
+              958.2265625,
+              433.359375
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "wrench.and.screwdriver 2.svg",
+          "name" : "wrench.and.screwdriver 2",
+          "position" : {
+            "scale" : 20,
+            "translation-in-points" : [
+              4.4609375,
+              111.296875
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
