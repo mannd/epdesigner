@@ -167,6 +167,39 @@ struct NodeEditorView: View {
                             Button { addBranch() } label: { Label("Add Branch", systemImage: "plus") }
                             .disabled(node.isLeaf)
                             .accessibilityHint(node.isLeaf ? "Disabled for leaf nodes" : "Add a new branch")
+
+                            // Contextual messages
+                            if node.branches?.isEmpty == false {
+                                // There are branches; explain why Result is disabled
+                                HStack(alignment: .top, spacing: 8) {
+                                    Image(systemName: "info.circle")
+                                        .foregroundStyle(.secondary)
+                                    Text("This node has branches. Delete all branches before setting a Result. A node cannot be a leaf and have branches at the same time.")
+                                        .foregroundStyle(.secondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.secondary.opacity(0.08))
+                                )
+                            }
+
+                            if node.isLeaf {
+                                // It's a leaf; explain why Question is disabled
+                                HStack(alignment: .top, spacing: 8) {
+                                    Image(systemName: "info.circle")
+                                        .foregroundStyle(.secondary)
+                                    Text("This is a leaf node (has a Result). The Question field is disabled for leaf nodes.")
+                                        .foregroundStyle(.secondary)
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                .padding(8)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.secondary.opacity(0.08))
+                                )
+                            }
                         }
                         .padding(12)
                         .background(
