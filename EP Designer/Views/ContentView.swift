@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var pendingNew = false
     @State private var showingOpenConfirm = false
     @State private var pendingOpen = false
+    @EnvironmentObject private var commandCenter: CommandCenter
 
     var body: some View {
         NavigationStack {
@@ -189,6 +190,24 @@ struct ContentView: View {
         } message: {
             Text("Do you want to save your current tree before opening another file?")
         }
+        .onReceive(commandCenter.$newFileRequested) { requested in
+            if requested {
+                commandCenter.newFileRequested = false
+                showingNewConfirm = true
+            }
+        }
+        .onReceive(commandCenter.$openFileRequested) { requested in
+            if requested {
+                commandCenter.openFileRequested = false
+                showingOpenConfirm = true
+            }
+        }
+        .onReceive(commandCenter.$saveFileRequested) { requested in
+            if requested {
+                commandCenter.saveFileRequested = false
+                showingExporter = true
+            }
+        }
         // This binds the sidebar selection to the @State property
         .navigationSplitViewColumnWidth(min: 200, ideal: 250)
     }
@@ -251,4 +270,3 @@ struct DecisionNodeDocument: FileDocument {
 #Preview {
     ContentView(root: .sampleTree)
 }
-
