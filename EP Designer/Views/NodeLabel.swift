@@ -31,4 +31,3 @@ struct NodeLabel: View {
 #Preview {
     NodeLabel(node: DecisionNode.sampleTree)
 }
-

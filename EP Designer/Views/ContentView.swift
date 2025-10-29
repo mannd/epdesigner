@@ -15,6 +15,10 @@ struct ContentView: View {
     @State private var refreshID = UUID()
     @State private var showingImporter = false
     @State private var showingExporter = false
+    @State private var showingNewConfirm = false
+    @State private var pendingNew = false
+    @State private var showingOpenConfirm = false
+    @State private var pendingOpen = false
 
     var body: some View {
         NavigationStack {
@@ -90,26 +94,52 @@ struct ContentView: View {
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 Button {
-                    showingImporter = true
+                    showingNewConfirm = true
+                } label: {
+                    Label("New", systemImage: "doc")
+                }
+                .accessibilityHint("Start a new blank decision tree. You can save the current tree first.")
+                #if os(macOS)
+                .help("Create a new blank decision tree")
+                #endif
+
+                Button {
+                    showingOpenConfirm = true
                 } label: {
                     Label("Open", systemImage: "folder")
                 }
+                .accessibilityHint("Open a decision tree from a JSON file. You can save the current tree first.")
+                #if os(macOS)
+                .help("Open a decision tree from disk")
+                #endif
+
                 Button {
                     showingExporter = true
                 } label: {
                     Label("Save", systemImage: "square.and.arrow.down")
                 }
+                .accessibilityHint("Save the current decision tree to a JSON file.")
+                #if os(macOS)
+                .help("Save the current decision tree")
+                #endif
             }
         }
         .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
             do {
                 let url = try result.get()
+                var needsStop = false
+                #if os(iOS) || os(visionOS) || os(tvOS) || os(watchOS) || os(macOS)
+                if url.startAccessingSecurityScopedResource() { needsStop = true }
+                #endif
                 let loaded = try DecisionNode.load(from: url)
-                root = loaded
-                // Reset selection/expanded state for new tree
-                expanded.removeAll()
-                selectedNodeID = nil
-                refreshID = UUID()
+                if needsStop { url.stopAccessingSecurityScopedResource() }
+                DispatchQueue.main.async {
+                    root = loaded
+                    // Reset selection/expanded state for new tree
+                    expanded.removeAll()
+                    selectedNodeID = nil
+                    refreshID = UUID()
+                }
             } catch {
                 print("Failed to open: \(error)")
             }
@@ -117,7 +147,47 @@ struct ContentView: View {
         .fileExporter(isPresented: $showingExporter, document: DecisionNodeDocument(node: root), contentType: .json, defaultFilename: defaultFilename()) { result in
             if case let .failure(error) = result {
                 print("Failed to save: \(error)")
+                pendingNew = false
+                pendingOpen = false
+            } else {
+                if pendingNew {
+                    pendingNew = false
+                    root = DecisionNode.new()
+                    expanded.removeAll()
+                    selectedNodeID = nil
+                    refreshID = UUID()
+                } else if pendingOpen {
+                    pendingOpen = false
+                    showingImporter = true
+                }
             }
+        }
+        .alert("Start a New Decision Tree?", isPresented: $showingNewConfirm) {
+            Button("Save and New") {
+                pendingNew = true
+                showingExporter = true
+            }
+            Button("Discard and New", role: .destructive) {
+                root = DecisionNode.new()
+                expanded.removeAll()
+                selectedNodeID = nil
+                refreshID = UUID()
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Do you want to save your current tree before creating a new one?")
+        }
+        .alert("Open a Decision Tree?", isPresented: $showingOpenConfirm) {
+            Button("Save and Open") {
+                pendingOpen = true
+                showingExporter = true
+            }
+            Button("Discard and Open", role: .destructive) {
+                showingImporter = true
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Do you want to save your current tree before opening another file?")
         }
         // This binds the sidebar selection to the @State property
         .navigationSplitViewColumnWidth(min: 200, ideal: 250)
@@ -181,3 +251,4 @@ struct DecisionNodeDocument: FileDocument {
 #Preview {
     ContentView(root: .sampleTree)
 }
+

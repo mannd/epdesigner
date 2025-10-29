@@ -233,7 +233,7 @@ struct NodeEditorView: View {
             i += 1
             label = "\(base) \(i)"
         }
-        let newChild = DecisionNode(label: label, question: "New Child")
+        let newChild = DecisionNode(label: label, question: "New question")
         children.append(newChild)
         node.branches = children
     }

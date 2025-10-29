@@ -37,6 +37,10 @@ struct DecisionNode: Codable, Identifiable, Hashable {
         self.tag = tag
     }
 
+    static func new() -> DecisionNode {
+        DecisionNode(id: Self.rootNodeId, label: "Root", question: "Add first question here.")
+    }
+
     // Hash / equality based ONLY on id (stable & cheap)
     static func == (lhs: DecisionNode, rhs: DecisionNode) -> Bool { lhs.id == rhs.id }
 
