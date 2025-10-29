@@ -32,10 +32,16 @@ struct EP_DesignerApp: App {
                 .keyboardShortcut("o", modifiers: [.command])
             }
             CommandGroup(replacing: .saveItem) {
-                Button("Save…") {
+                Button("Save") {
                     commandCenter.requestSaveFile()
                 }
                 .keyboardShortcut("s", modifiers: [.command])
+            }
+            CommandGroup(after: .saveItem) {
+                Button("Save As…") {
+                    commandCenter.requestSaveAsFile()
+                }
+                .keyboardShortcut("S", modifiers: [.command, .shift])
             }
         }
     }

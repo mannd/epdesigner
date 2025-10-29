@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var pendingNew = false
     @State private var showingOpenConfirm = false
     @State private var pendingOpen = false
+    @State private var currentFileURL: URL? = nil
     @EnvironmentObject private var commandCenter: CommandCenter
 
     var body: some View {
@@ -115,7 +116,15 @@ struct ContentView: View {
                 #endif
 
                 Button {
-                    showingExporter = true
+                    if let url = currentFileURL {
+                        do {
+                            try root.save(to: url)
+                        } catch {
+                            print("Failed to save in place: \(error)")
+                        }
+                    } else {
+                        showingExporter = true
+                    }
                 } label: {
                     Label("Save", systemImage: "square.and.arrow.down")
                 }
@@ -140,17 +149,20 @@ struct ContentView: View {
                     expanded.removeAll()
                     selectedNodeID = nil
                     refreshID = UUID()
+                    currentFileURL = url
                 }
             } catch {
                 print("Failed to open: \(error)")
             }
         }
         .fileExporter(isPresented: $showingExporter, document: DecisionNodeDocument(node: root), contentType: .json, defaultFilename: defaultFilename()) { result in
-            if case let .failure(error) = result {
+            switch result {
+            case .failure(let error):
                 print("Failed to save: \(error)")
                 pendingNew = false
                 pendingOpen = false
-            } else {
+            case .success(let url):
+                currentFileURL = url
                 if pendingNew {
                     pendingNew = false
                     root = DecisionNode.new()
@@ -205,6 +217,20 @@ struct ContentView: View {
         .onReceive(commandCenter.$saveFileRequested) { requested in
             if requested {
                 commandCenter.saveFileRequested = false
+                if let url = currentFileURL {
+                    do {
+                        try root.save(to: url)
+                    } catch {
+                        print("Failed to save in place: \(error)")
+                    }
+                } else {
+                    showingExporter = true
+                }
+            }
+        }
+        .onReceive(commandCenter.$saveAsFileRequested) { requested in
+            if requested {
+                commandCenter.saveAsFileRequested = false
                 showingExporter = true
             }
         }
@@ -270,3 +296,4 @@ struct DecisionNodeDocument: FileDocument {
 #Preview {
     ContentView(root: .sampleTree)
 }
+
