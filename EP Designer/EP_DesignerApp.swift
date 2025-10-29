@@ -13,5 +13,10 @@ struct EP_DesignerApp: App {
         WindowGroup {
             ContentView(root: DecisionNode.sampleTree)
         }
+        .commands {
+            CommandGroup(replacing: .newItem) {
+                // Intentionally empty to remove "New Window" (Cmd-N)
+            }
+        }
     }
 }
