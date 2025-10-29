@@ -1,4 +1,4 @@
-EP Designer ==========
+# EP Designer
 
 ## Tool to create decision trees 
 
