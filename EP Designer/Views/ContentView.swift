@@ -169,6 +169,7 @@ struct ContentView: View {
                     expanded.removeAll()
                     selectedNodeID = nil
                     refreshID = UUID()
+                    currentFileURL = nil
                 } else if pendingOpen {
                     pendingOpen = false
                     showingImporter = true
@@ -185,6 +186,7 @@ struct ContentView: View {
                 expanded.removeAll()
                 selectedNodeID = nil
                 refreshID = UUID()
+                currentFileURL = nil
             }
             Button("Cancel", role: .cancel) { }
         } message: {
