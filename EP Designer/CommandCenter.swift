@@ -6,6 +6,7 @@ final class CommandCenter: ObservableObject {
     @Published var saveFileRequested = false
     @Published var saveAsFileRequested = false
     @Published var closeWindowRequested = false
+    @Published var canSave: Bool = false
 
     func requestNewFile() {
         newFileRequested = true
@@ -35,3 +36,4 @@ final class CommandCenter: ObservableObject {
         closeWindowRequested = false
     }
 }
+

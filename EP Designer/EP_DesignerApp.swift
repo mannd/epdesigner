@@ -36,6 +36,7 @@ struct EP_DesignerApp: App {
                     commandCenter.requestSaveFile()
                 }
                 .keyboardShortcut("s", modifiers: [.command])
+                .disabled(!commandCenter.canSave)
             }
             CommandGroup(after: .saveItem) {
                 Button("Save As…") {

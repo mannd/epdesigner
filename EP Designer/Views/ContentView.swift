@@ -20,6 +20,7 @@ struct ContentView: View {
     @State private var showingOpenConfirm = false
     @State private var pendingOpen = false
     @State private var currentFileURL: URL? = nil
+    @State private var isDirty: Bool = false
     @EnvironmentObject private var commandCenter: CommandCenter
 
     var body: some View {
@@ -52,6 +53,8 @@ struct ContentView: View {
 
                                 // Trigger UI refresh for both panels
                                 refreshID = UUID()
+                                
+                                isDirty = true
                             }
                         )
                     NodeEditorView(
@@ -62,6 +65,7 @@ struct ContentView: View {
                             refreshID = UUID()
                             // Keep the same selection id (stable)
                             selectedNodeID = updated.id
+                            isDirty = true
                         }
                     )
                     .id(node.id)
@@ -86,6 +90,7 @@ struct ContentView: View {
 
                             // Trigger UI refresh for both panels
                             refreshID = UUID()
+                            isDirty = true
                         }
                     )
                 NodeEditorView(
@@ -96,7 +101,18 @@ struct ContentView: View {
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 Button {
-                    showingNewConfirm = true
+                    if isDirty {
+                        showingNewConfirm = true
+                    } else {
+                        // No unsaved changes; proceed directly to new
+                        root = DecisionNode.new()
+                        expanded.removeAll()
+                        selectedNodeID = nil
+                        refreshID = UUID()
+                        currentFileURL = nil
+                        isDirty = false
+                        commandCenter.canSave = false
+                    }
                 } label: {
                     Label("New", systemImage: "doc")
                 }
@@ -106,7 +122,12 @@ struct ContentView: View {
                 #endif
 
                 Button {
-                    showingOpenConfirm = true
+                    if isDirty {
+                        showingOpenConfirm = true
+                    } else {
+                        // No unsaved changes; open directly
+                        showingImporter = true
+                    }
                 } label: {
                     Label("Open", systemImage: "folder")
                 }
@@ -119,6 +140,8 @@ struct ContentView: View {
                     if let url = currentFileURL {
                         do {
                             try root.save(to: url)
+                            isDirty = false
+                            commandCenter.canSave = false
                         } catch {
                             print("Failed to save in place: \(error)")
                         }
@@ -132,6 +155,7 @@ struct ContentView: View {
                 #if os(macOS)
                 .help("Save the current decision tree")
                 #endif
+                .disabled(!isDirty)
             }
         }
         .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
@@ -150,6 +174,8 @@ struct ContentView: View {
                     selectedNodeID = nil
                     refreshID = UUID()
                     currentFileURL = url
+                    isDirty = false
+                    commandCenter.canSave = false
                 }
             } catch {
                 print("Failed to open: \(error)")
@@ -163,6 +189,8 @@ struct ContentView: View {
                 pendingOpen = false
             case .success(let url):
                 currentFileURL = url
+                isDirty = false
+                commandCenter.canSave = false
                 if pendingNew {
                     pendingNew = false
                     root = DecisionNode.new()
@@ -170,6 +198,8 @@ struct ContentView: View {
                     selectedNodeID = nil
                     refreshID = UUID()
                     currentFileURL = nil
+                    isDirty = false
+                    commandCenter.canSave = false
                 } else if pendingOpen {
                     pendingOpen = false
                     showingImporter = true
@@ -187,6 +217,8 @@ struct ContentView: View {
                 selectedNodeID = nil
                 refreshID = UUID()
                 currentFileURL = nil
+                isDirty = false
+                commandCenter.canSave = false
             }
             Button("Cancel", role: .cancel) { }
         } message: {
@@ -207,13 +239,27 @@ struct ContentView: View {
         .onReceive(commandCenter.$newFileRequested) { requested in
             if requested {
                 commandCenter.newFileRequested = false
-                showingNewConfirm = true
+                if isDirty {
+                    showingNewConfirm = true
+                } else {
+                    root = DecisionNode.new()
+                    expanded.removeAll()
+                    selectedNodeID = nil
+                    refreshID = UUID()
+                    currentFileURL = nil
+                    isDirty = false
+                    commandCenter.canSave = false
+                }
             }
         }
         .onReceive(commandCenter.$openFileRequested) { requested in
             if requested {
                 commandCenter.openFileRequested = false
-                showingOpenConfirm = true
+                if isDirty {
+                    showingOpenConfirm = true
+                } else {
+                    showingImporter = true
+                }
             }
         }
         .onReceive(commandCenter.$saveFileRequested) { requested in
@@ -222,6 +268,8 @@ struct ContentView: View {
                 if let url = currentFileURL {
                     do {
                         try root.save(to: url)
+                        isDirty = false
+                        commandCenter.canSave = false
                     } catch {
                         print("Failed to save in place: \(error)")
                     }
@@ -235,6 +283,12 @@ struct ContentView: View {
                 commandCenter.saveAsFileRequested = false
                 showingExporter = true
             }
+        }
+        .onAppear {
+            commandCenter.canSave = isDirty
+        }
+        .onChange(of: isDirty) { oldValue, newValue in
+            commandCenter.canSave = newValue
         }
         // This binds the sidebar selection to the @State property
         .navigationSplitViewColumnWidth(min: 200, ideal: 250)
