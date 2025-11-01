@@ -23,6 +23,15 @@ struct ContentView: View {
     @State private var isDirty: Bool = false
     @EnvironmentObject private var commandCenter: CommandCenter
 
+    // Dynamic window title reflecting the current file name (macOS)
+    private var windowTitle: String {
+        let appTitle = "EP Designer"
+        guard let url = currentFileURL else { return appTitle }
+        let name = url.deletingPathExtension().lastPathComponent
+        if name.isEmpty { return appTitle }
+        return "\(appTitle) - \(name)"
+    }
+
     var body: some View {
         NavigationStack {
             NavigationSplitView {
@@ -98,6 +107,9 @@ struct ContentView: View {
                 )
             }
         } // NavigationStack
+        #if os(macOS)
+        .macOSWindowTitle(windowTitle)
+        #endif
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 Button {
@@ -158,7 +170,7 @@ struct ContentView: View {
                 .disabled(!isDirty)
             }
         }
-        .fileImporter(isPresented: $showingImporter, allowedContentTypes: [.json]) { result in
+        .fileImporter(isPresented: $showingImporter, allowedContentTypes: [UTType.json]) { result in
             do {
                 let url = try result.get()
                 var needsStop = false
@@ -181,7 +193,7 @@ struct ContentView: View {
                 print("Failed to open: \(error)")
             }
         }
-        .fileExporter(isPresented: $showingExporter, document: DecisionNodeDocument(node: root), contentType: .json, defaultFilename: defaultFilename()) { result in
+        .fileExporter(isPresented: $showingExporter, document: DecisionNodeDocument(node: root), contentType: UTType.json, defaultFilename: defaultFilename()) { result in
             switch result {
             case .failure(let error):
                 print("Failed to save: \(error)")
@@ -323,9 +335,9 @@ struct ContentView: View {
     }
 }
 
-import UniformTypeIdentifiers
+ 
 struct DecisionNodeDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.json] }
+    static var readableContentTypes: [UTType] { [UTType.json] }
     var node: DecisionNode
     init(node: DecisionNode) { self.node = node }
     init(configuration: ReadConfiguration) throws {
@@ -347,6 +359,48 @@ struct DecisionNodeDocument: FileDocument {
         return FileWrapper(regularFileWithContents: data)
     }
 }
+
+#if os(macOS)
+import AppKit
+
+private struct WindowTitleSetter: ViewModifier {
+    let title: String
+
+    func body(content: Content) -> some View {
+        content
+            .background(TitleSetterRepresentable(title: title))
+    }
+
+    private struct TitleSetterRepresentable: NSViewRepresentable {
+        let title: String
+
+        func makeNSView(context: Context) -> NSView {
+            let view = NSView()
+            DispatchQueue.main.async {
+                updateWindowTitle(for: view)
+            }
+            return view
+        }
+
+        func updateNSView(_ nsView: NSView, context: Context) {
+            DispatchQueue.main.async {
+                updateWindowTitle(for: nsView)
+            }
+        }
+
+        private func updateWindowTitle(for view: NSView) {
+            guard let window = view.window else { return }
+            window.title = title
+        }
+    }
+}
+
+private extension View {
+    func macOSWindowTitle(_ title: String) -> some View {
+        self.modifier(WindowTitleSetter(title: title))
+    }
+}
+#endif
 
 // Preview
 #Preview {
