@@ -21,6 +21,7 @@ struct ContentView: View {
     @State private var pendingOpen = false
     @State private var currentFileURL: URL? = nil
     @State private var isDirty: Bool = false
+    @State private var showingSettings = false
     @EnvironmentObject private var commandCenter: CommandCenter
 
     // Dynamic window title reflecting the current file name (macOS)
@@ -168,8 +169,22 @@ struct ContentView: View {
                 .help("Save the current decision tree")
                 #endif
                 .disabled(!isDirty)
+
+                #if os(iOS) || os(tvOS) || os(visionOS)
+                Button {
+                    showingSettings = true
+                } label: {
+                    Label("Settings", systemImage: "gearshape")
+                }
+                .help("App settings")
+                #endif
             }
         }
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+        }
+        #endif
         .fileImporter(isPresented: $showingImporter, allowedContentTypes: [UTType.json]) { result in
             do {
                 let url = try result.get()

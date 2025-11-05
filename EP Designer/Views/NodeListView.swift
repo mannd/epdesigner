@@ -11,11 +11,13 @@ struct NodeListView: View {
     let node: DecisionNode
     @Binding var expanded: Set<String>
     @Binding var selection: DecisionNode?
-    var isColoredText: Bool = true
+    @Environment(\.settingsStore) private var settings
 
     let questionColor: Color = .blue
     let answerColor: Color = .red
     let resultColor: Color = .green
+
+    private var isColoredText: Bool { settings.sidebarColoredText }
 
 
     var body: some View {

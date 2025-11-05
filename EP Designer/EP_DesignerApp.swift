@@ -10,11 +10,14 @@ import SwiftUI
 @main
 struct EP_DesignerApp: App {
     @StateObject private var commandCenter = CommandCenter()
+    @StateObject private var settings = SettingsStore()
     
     var body: some Scene {
         WindowGroup {
             ContentView(root: DecisionNode.sampleTree)
                 .environmentObject(commandCenter)
+                .environmentObject(settings)
+                .environment(\.settingsStore, settings)
         }
         .commands {
             CommandGroup(replacing: .newItem) {
@@ -25,7 +28,7 @@ struct EP_DesignerApp: App {
                     commandCenter.requestNewFile()
                 }
                 .keyboardShortcut("n", modifiers: [.command])
-                
+
                 Button("Open…") {
                     commandCenter.requestOpenFile()
                 }
@@ -45,6 +48,13 @@ struct EP_DesignerApp: App {
                 .keyboardShortcut("S", modifiers: [.command, .shift])
             }
         }
+#if os(macOS)
+        Settings {
+            SettingsView()
+                .environmentObject(settings)
+                .environment(\.settingsStore, settings)
+        }
+#endif
     }
 }
 
